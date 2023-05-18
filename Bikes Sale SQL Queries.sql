@@ -1,39 +1,37 @@
 -- Cleaned FactInternetSales Table --
 SELECT 
-	[ProductKey],
-    [OrderDateKey],
-    [DueDateKey],
-    [ShipDateKey],
-    [CustomerKey],
-    --[PromotionKey]
-    --[CurrencyKey]
-    --[SalesTerritoryKey]
-    [SalesOrderNumber],
-    --[SalesOrderLineNumber]
-    --[RevisionNumber]
-    --[OrderQuantity]
-    --[UnitPrice]
-    --[ExtendedAmount]
-    --[UnitPriceDiscountPct]
-    --[DiscountAmount]
-    --[ProductStandardCost]
-    --[TotalProductCost]
-    [SalesAmount]
-    --[TaxAmt]
-    --[Freight]
-    --[CarrierTrackingNumber]
-    --[CustomerPONumber]
-    --[OrderDate]
-    --[DueDate]
-    --[ShipDate]
+  [ProductKey], 
+  [OrderDateKey], 
+  [DueDateKey], 
+  [ShipDateKey], 
+  [CustomerKey], 
+  --[PromotionKey]
+  --[CurrencyKey]
+  --[SalesTerritoryKey]
+  [SalesOrderNumber], 
+  --[SalesOrderLineNumber]
+  --[RevisionNumber]
+  --[OrderQuantity]
+  --[UnitPrice]
+  --[ExtendedAmount]
+  --[UnitPriceDiscountPct]
+  --[DiscountAmount]
+  --[ProductStandardCost]
+  --[TotalProductCost]
+  [SalesAmount] --[TaxAmt]
+  --[Freight]
+  --[CarrierTrackingNumber]
+  --[CustomerPONumber]
+  --[OrderDate]
+  --[DueDate]
+  --[ShipDate]
 FROM 
-	[AdventureWorksDW2022].[dbo].[FactInternetSales]
-WHERE
-	LEFT(OrderDateKey, 4) >= YEAR(GETDATE()) -2 -- Extract only data from up to 2 years ago, in this case it would be since 2019
+  [AdventureWorksDW2022].[dbo].[FactInternetSales] 
+WHERE 
+  LEFT(OrderDateKey, 4) >= YEAR(GETDATE()) -2 -- Extract only data from up to 2 years ago, in this case it would be since 2019
 ORDER BY 
-	OrderDateKey ASC
-
-
+  OrderDateKey ASC 
+  
 -- Cleaned Dim.Products Table --
 SELECT 
   prd.[ProductKey], 
@@ -76,11 +74,13 @@ SELECT
   ISNULL(prd.Status, 'Outdated') AS [Product_Status] 
 FROM 
   [AdventureWorksDW2022].[dbo].[DimProduct] as prd 
-  LEFT JOIN DimProductSubcategory AS scat ON scat.ProductSubcategoryKey = prd.ProductSubcategoryKey 
-  LEFT JOIN DimProductCategory AS cat ON scat.ProductCategoryKey = cat.ProductCategoryKey 
+  LEFT JOIN DimProductSubcategory AS scat 
+  ON scat.ProductSubcategoryKey = prd.ProductSubcategoryKey 
+  LEFT JOIN DimProductCategory AS cat 
+  ON scat.ProductCategoryKey = cat.ProductCategoryKey 
 ORDER BY 
-  prd.ProductKey ASC
-
+  prd.ProductKey ASC 
+ 
 -- Cleaning and Labeling of Dim.Date Table --
 SELECT 
   [DateKey], 
@@ -91,15 +91,14 @@ SELECT
   --[FrenchDayNameOfWeek]
   --[DayNumberOfMonth]
   --[DayNumberOfYear]
-  [WeekNumberOfYear] AS WeekNr,
+  [WeekNumberOfYear] AS WeekNr, 
   [EnglishMonthName] AS Month, 
   LEFT([EnglishMonthName], 3) AS MonthShort, 
   --[SpanishMonthName]
   --[FrenchMonthName]
   [MonthNumberOfYear] AS MonthNo, 
   [CalendarQuarter] AS Quarter, 
-  [CalendarYear] AS Year 
-  --[CalendarSemester]
+  [CalendarYear] AS Year --[CalendarSemester]
   --[FiscalQuarter]
   --[FiscalYear]
   --[FiscalSemester]
@@ -107,7 +106,7 @@ FROM
   [AdventureWorksDW2022].[dbo].[DimDate] 
 WHERE 
   CalendarYear >= 2019 -- Sales Manager analyzes data from up to 2 years back, from 2021
-
+ 
 -- Cleaned Dim.Customers Table --
 SELECT 
   cus.[CustomerKey] AS CustomerKey, 
@@ -144,6 +143,7 @@ SELECT
   geo.[City] AS [CustomerCity] 
 FROM 
   [AdventureWorksDW2022].[dbo].[DimCustomer] AS cus 
-  LEFT JOIN [AdventureWorksDW2022].[dbo].[DimGeography] AS geo ON geo.geographykey = cus.geographykey 
+  LEFT JOIN [AdventureWorksDW2022].[dbo].[DimGeography] AS geo 
+  ON geo.geographykey = cus.geographykey 
 ORDER BY 
   CustomerKey ASC

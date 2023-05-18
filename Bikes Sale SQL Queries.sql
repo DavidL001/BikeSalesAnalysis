@@ -43,16 +43,16 @@ SELECT
   scat.EnglishProductSubcategoryName AS [Subcategory], 
   cat.EnglishProductCategoryName AS [Product_Category], 
   --[SpanishProductName]
-  --   [FrenchProductName]
-  --   [StandardCost]
-  --   [FinishedGoodsFlag]
+  --[FrenchProductName]
+  --[StandardCost]
+  --[FinishedGoodsFlag]
   prd.[Color] AS [Product_Color], 
   --[SafetyStockLevel]
   --[ReorderPoint]
   --[ListPrice]
   prd.[Size] AS [Product_Size], 
-  --   [SizeRange]
-  --   [Weight]
+  --[SizeRange]
+  --[Weight]
   --[DaysToManufacture]
   prd.[ProductLine], 
   --[DealerPrice]
@@ -116,8 +116,7 @@ SELECT
   cus.[FirstName], 
   --[MiddleName]
   cus.[LastName], 
-  cus.[FirstName] + ' ' + cus.[LastName] AS [FullName], 
-  -- Combining their First and Last Names
+  cus.[FirstName] + ' ' + cus.[LastName] AS [FullName],  --Combining their First and Last Names
   --[NameStyle]
   --[BirthDate]
   --[MaritalStatus]
